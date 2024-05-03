@@ -102,10 +102,25 @@ To access Copilot metrics from the last 28 days via the API and display actual d
 ```
 
 #### VUE_APP_GITHUB_TOKEN
+
 Specifies the GitHub Personal Access Token utilized for API requests. Generate this token with the following scopes: _copilot_, _manage_billing:copilot_, _manage_billing:enterprise_, _read:enterprise_, _admin:org_.
 
 ```
   VUE_APP_GITHUB_TOKEN=
+```
+
+### Deploy to Azure Static Web Apps
+
+In order to deploy this site to Azure Static Web Apps *without* storing sensitive information in your `.env` file you can modify the generated GitHub Action workflow and add the following items to the `builddeploy` step (you can see this in the [sample workflow](/.github/workflows/azure-static-web-apps-kind-grass-0fb6d351e.yml) in this repository).
+
+You need to define two GitHub Actions secrets to hold the organisation (or enterprise) name you wish to report against, along with a the GitHub Token (PAT).
+
+```yaml
+env: # Add environment variables here
+    VUE_APP_MOCKED_DATA: false
+    VUE_APP_SCOPE: organization
+    VUE_APP_GITHUB_ORG: ${{ secrets.VUE_APP_GITHUB_ORG }}
+    VUE_APP_GITHUB_TOKEN: ${{ secrets.VUE_APP_GITHUB_TOKEN }}
 ```
 
 ## Install dependencies
